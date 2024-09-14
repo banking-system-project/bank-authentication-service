@@ -14,4 +14,5 @@ public class GetUserDetailsOutputDTO {
     private String isLock;
     private String createdAt;
     private String lastUpdate;
+
 }
