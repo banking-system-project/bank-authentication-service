@@ -22,11 +22,12 @@ configurations {
 repositories {
 	mavenCentral()
 }
+extra["springCloudVersion"] = "2023.0.3"
 
 dependencies {
-	//implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation ("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 	implementation("org.mapstruct:mapstruct:1.6.0")
 	annotationProcessor("org.mapstruct:mapstruct-processor:1.6.0")
 	compileOnly("org.projectlombok:lombok")
@@ -42,3 +43,8 @@ dependencies {
 	runtimeOnly ("io.jsonwebtoken:jjwt-jackson:0.12.6")
 }
 
+dependencyManagement {
+	imports {
+		mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+	}
+}
