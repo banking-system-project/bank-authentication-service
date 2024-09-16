@@ -44,13 +44,11 @@ public class AuthConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){
-        System.out.println("called by user details Service");
         return new AuthenticationUserDetailService();
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
-        System.out.println("I'm in authentication provider");
         DaoAuthenticationProvider daoAuthenticationProvider= new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userDetailsService());
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
@@ -59,7 +57,6 @@ public class AuthConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        System.out.println("I'm here now");
         return configuration.getAuthenticationManager();
     }
 }
