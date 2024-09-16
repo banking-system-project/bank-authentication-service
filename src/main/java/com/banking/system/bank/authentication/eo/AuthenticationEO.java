@@ -16,7 +16,8 @@ public class AuthenticationEO {
     AuthenticationDAO authenticationDAO;
 
     public List<GetUserDetailsOutputDTO> getUserDetails() {
-        return authenticationDAO.getUserDetails();
+        List<GetUserDetailsOutputDTO> getUserDetailsOutputDTO = authenticationDAO.getUserDetails();
+        return getUserDetailsOutputDTO;
     }
 
     public Optional<GetUserDetailsOutputVO> getUserDetailsByUserName(String userName) {

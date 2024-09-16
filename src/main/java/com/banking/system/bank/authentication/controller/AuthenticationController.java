@@ -35,25 +35,18 @@ public class AuthenticationController {
         return new ResponseEntity<>(registerUserOutputVO, HttpStatus.OK);
     }
     @PostMapping(value = "/user/details")
-    //@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     public ResponseEntity<Object> getUsers(){
-        List<GetUserDetailsOutputVO> getUserOutputDetailsVO = authenticationService.getUserDetails();
+        List<GetUserDetailsLimitedOutputVO> getUserOutputDetailsVO = authenticationService.getUserDetails();
         return new ResponseEntity<>(getUserOutputDetailsVO, HttpStatus.OK);
     }
 
-
     @PostMapping(value = "/user/login")
     public ResponseEntity<UserAuthenticationOutputVO> signIn(@RequestBody UserAuthenticationInputVO userAuthenticationInputVO) throws Exception{
-        System.out.println("starting of login");
         UserAuthenticationOutputVO userAuthenticationOutputVO = new UserAuthenticationOutputVO();
-        System.out.println(userAuthenticationInputVO.getUserId() +" "+userAuthenticationInputVO.getPassword());
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAuthenticationInputVO.getUserId(), userAuthenticationInputVO.getPassword()));
-        System.out.println(authenticate.toString());
-        System.out.println("is authentication done?");
         if(authenticate.isAuthenticated()){
-            System.out.println("Account is authenticated");
             userAuthenticationOutputVO.setToken(jwtService.generateToken(userAuthenticationInputVO.getUserId()));
-            System.out.println("JWT token is verfied: ");
             return new ResponseEntity<>(userAuthenticationOutputVO, HttpStatus.OK);
         }
         else

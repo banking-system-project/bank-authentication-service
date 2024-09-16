@@ -1,16 +1,14 @@
 package com.banking.system.bank.authentication.vo;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class RegisterUserInputVO {
+public class GetUserDetailsLimitedOutputVO {
     private String userId;
     private String emailAdd;
     private String phoneNumber;
-    private String password;
     private String role;
+    private String lastUpdate;
 }

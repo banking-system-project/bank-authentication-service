@@ -1,6 +1,7 @@
 package com.banking.system.bank.authentication.dao;
 
 import com.banking.system.bank.authentication.dto.GetUserDetailsOutputDTO;
+import com.banking.system.bank.authentication.mapper.GetSpecificUserDetailsMapper;
 import com.banking.system.bank.authentication.mapper.GetUserDetailsOutputMapper;
 import com.banking.system.bank.authentication.util.SqlQueriesContstant;
 import com.banking.system.bank.authentication.vo.GetUserDetailsOutputVO;
@@ -21,6 +22,9 @@ public class AuthenticationDAO {
     @Autowired
     private GetUserDetailsOutputMapper getUserDetailsOutputMapper;
 
+    @Autowired
+    private GetSpecificUserDetailsMapper getSpecificUserDetailsMapper;
+
     public List<GetUserDetailsOutputDTO> getUserDetails(){
         List<GetUserDetailsOutputDTO> getUserDetailsOutputDTO = null;
         try{
@@ -32,9 +36,9 @@ public class AuthenticationDAO {
     }
 
     public Optional<GetUserDetailsOutputVO> getUserDetailByUserNameAndPassWord(String userName){
-        GetUserDetailsOutputVO getUserDetailsOutputVO = new GetUserDetailsOutputVO();
+        GetUserDetailsOutputVO getUserDetailsOutputVO = null;
         try{
-            getUserDetailsOutputVO = (GetUserDetailsOutputVO) jdbcTemplate.queryForObject(SqlQueriesContstant.SQL_GET_USER_DETAILS_BY_USERNAME_PASSWORD, getUserDetailsOutputMapper, new Object[]{userName});
+            getUserDetailsOutputVO = (GetUserDetailsOutputVO) jdbcTemplate.queryForObject(SqlQueriesContstant.SQL_GET_USER_DETAILS_BY_USERNAME_PASSWORD, new Object[]{userName},getSpecificUserDetailsMapper);
         }catch(Exception e){
             throw new RuntimeException(e.getMessage());
         }

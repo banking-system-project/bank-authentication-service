@@ -14,20 +14,22 @@ public class PostAuthenticatedUserDetailsService implements UserDetails {
 
     private String userId;
     private String emailAdd;
-    private String phNo;
+    private String phoneNumber;
     private String password;
     private String role;
     private String isLock;
+    private String lastUpdate;
     private List<GrantedAuthority> authorities;
 
 
     public PostAuthenticatedUserDetailsService(GetUserDetailsOutputVO userVO) {
         this.userId = userVO.getUserId();
         this.emailAdd = userVO.getEmailAdd();
-        this.phNo = userVO.getPhoneNumber();
+        this.phoneNumber = userVO.getPhoneNumber();
         this.password = userVO.getPassword();
         this.role = userVO.getRole();
         this.isLock = userVO.getIsLock();
+        this.lastUpdate = userVO.getLastUpdate();
         this.authorities = Arrays.stream(userVO.getRole().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
@@ -70,7 +72,7 @@ public class PostAuthenticatedUserDetailsService implements UserDetails {
     }
 
     public String getPhoneNo() {
-        return phNo;
+        return phoneNumber;
     }
 
     public String getRoleAccess() {
