@@ -12,4 +12,5 @@ public interface JwtService {
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver);
     public Boolean validateToken(String token, UserDetails userDetails);
     public String generateToken(String userId);
+    public void verifyToken(final String token);
 }

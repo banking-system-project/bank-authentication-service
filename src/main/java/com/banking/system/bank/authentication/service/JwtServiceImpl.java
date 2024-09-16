@@ -2,6 +2,7 @@ package com.banking.system.bank.authentication.service;
 
 import com.banking.system.bank.authentication.util.Constants;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -48,6 +49,10 @@ public class JwtServiceImpl implements JwtService{
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && Boolean.FALSE.equals(isTokenExpired(token)));
+    }
+
+    public void verifyToken(final String token){
+        Jwts.parser().decryptWith(getSignKey()).build().parseSignedClaims(token);
     }
 
     @Override

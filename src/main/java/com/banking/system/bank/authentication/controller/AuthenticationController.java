@@ -52,4 +52,14 @@ public class AuthenticationController {
         else
             throw new UsernameNotFoundException("bad credentials");
     }
+
+    @GetMapping("/token")
+    public String validateToken(@RequestParam("token") String token){
+        try{
+            jwtService.verifyToken(token);
+        }catch (RuntimeException re){
+            System.out.println("token is invalid");
+        }
+        return "valid";
+    }
 }

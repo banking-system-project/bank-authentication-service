@@ -34,7 +34,7 @@ public class AuthConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/bank/authentication/user/login").permitAll()
+                        .requestMatchers("/bank/authentication/user/login","/bank/authentication/user/register","/bank/authentication/token").permitAll()
                         .requestMatchers("/bank/authentication/user/details").authenticated())
                 .sessionManagement( ses -> ses.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
