@@ -1,5 +1,6 @@
 package com.banking.system.bank.authentication.controller;
 
+import com.banking.system.bank.authentication.config.HeaderInterceptor;
 import com.banking.system.bank.authentication.service.AuthenticationService;
 import com.banking.system.bank.authentication.service.AuthenticationServiceImpl;
 import com.banking.system.bank.authentication.service.JwtService;
@@ -29,11 +30,15 @@ public class AuthenticationController {
     @Autowired
     private JwtService jwtService;
 
+    @Autowired
+    private HeaderInterceptor headerInterceptor;
+
     @PostMapping(value = "/user/register")
     public ResponseEntity<RegisterUserOutputVO> registerUser(@RequestBody RegisterUserInputVO registerUserInputVO){
         RegisterUserOutputVO registerUserOutputVO = authenticationService.registerUser(registerUserInputVO);
         return new ResponseEntity<>(registerUserOutputVO, HttpStatus.OK);
     }
+
     @PostMapping(value = "/user/details")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     public ResponseEntity<Object> getUsers(){
@@ -51,6 +56,16 @@ public class AuthenticationController {
         }
         else
             throw new UsernameNotFoundException("bad credentials");
+    }
+
+    @PutMapping(value = "/user/update/password")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+    public ResponseEntity<UpdateDetailsOutputVO> userPasswordUpdate(@RequestBody UpdatePasswordInputVO updatePasswordInputVO){
+        System.out.println("here");
+        String userName = headerInterceptor.getUsername();
+        System.out.println(userName);
+        UpdateDetailsOutputVO updateDetailsOutputVO = authenticationService.updatePassword(updatePasswordInputVO,userName);
+        return new ResponseEntity<>(updateDetailsOutputVO, HttpStatus.OK);
     }
 
     @GetMapping("/token")

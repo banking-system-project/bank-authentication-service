@@ -8,6 +8,10 @@ spring:
     password: capgemini
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+
+  main:
+    allow-circular-references: true
+
 eureka:
   instance:
     prefer-ip-address: true

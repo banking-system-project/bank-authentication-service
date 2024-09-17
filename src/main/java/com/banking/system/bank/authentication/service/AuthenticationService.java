@@ -8,4 +8,6 @@ public interface AuthenticationService {
     RegisterUserOutputVO registerUser(RegisterUserInputVO registerUserInputVO);
 
     List<GetUserDetailsLimitedOutputVO> getUserDetails();
+
+    UpdateDetailsOutputVO updatePassword(UpdatePasswordInputVO updatePasswordInputVO, String userName);
 }

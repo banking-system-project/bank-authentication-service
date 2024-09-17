@@ -5,11 +5,15 @@ import com.banking.system.bank.authentication.mapper.GetSpecificUserDetailsMappe
 import com.banking.system.bank.authentication.mapper.GetUserDetailsOutputMapper;
 import com.banking.system.bank.authentication.util.SqlQueriesContstant;
 import com.banking.system.bank.authentication.vo.GetUserDetailsOutputVO;
+import com.banking.system.bank.authentication.vo.UpdateDetailsOutputVO;
+import com.banking.system.bank.authentication.vo.UpdatePasswordInputVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,5 +47,32 @@ public class AuthenticationDAO {
             throw new RuntimeException(e.getMessage());
         }
         return Optional.ofNullable(getUserDetailsOutputVO);
+    }
+
+    public UpdateDetailsOutputVO updateUserPassword(String hashedPassword, String userName) {
+        UpdateDetailsOutputVO updateDetailsOutputVO = new UpdateDetailsOutputVO();
+
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String currentTimeStamp = now.format(formatter);
+
+        int result=0;
+        System.out.println("In DAO layer");
+        try{
+            result = jdbcTemplate.update(SqlQueriesContstant.UPDATE_PASSWORD, new Object[]{hashedPassword, currentTimeStamp, userName});
+            System.out.println("update result: "+result);
+            if(result == 1){
+                System.out.println("done");
+                updateDetailsOutputVO.setUpdateMessage("user details updated successfully");
+            }
+            else {
+                updateDetailsOutputVO.setUpdateMessage("Something Wrong!!");
+            }
+
+        }catch (Exception e) {
+            updateDetailsOutputVO.setUpdateMessage(e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
+        return updateDetailsOutputVO;
     }
 }

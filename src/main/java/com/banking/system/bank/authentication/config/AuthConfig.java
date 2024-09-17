@@ -35,7 +35,7 @@ public class AuthConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/bank/authentication/user/login","/bank/authentication/user/register","/bank/authentication/token").permitAll()
-                        .requestMatchers("/bank/authentication/user/details").authenticated())
+                        .requestMatchers("/bank/authentication/user/details","/bank/authentication/user/update/password").authenticated())
                 .sessionManagement( ses -> ses.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class).build();

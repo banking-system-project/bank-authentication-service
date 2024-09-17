@@ -27,7 +27,6 @@ public interface MapperUtil {
             getUserDetailsLimitedOutputVO.setLastUpdate(getUserDetailsOutputDTO.getLastUpdate());
             limitedData.add(getUserDetailsLimitedOutputVO);
         }
-        System.out.println(limitedData);
         return limitedData;
     }
 }

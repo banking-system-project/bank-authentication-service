@@ -3,6 +3,8 @@ package com.banking.system.bank.authentication.eo;
 import com.banking.system.bank.authentication.dao.AuthenticationDAO;
 import com.banking.system.bank.authentication.dto.GetUserDetailsOutputDTO;
 import com.banking.system.bank.authentication.vo.GetUserDetailsOutputVO;
+import com.banking.system.bank.authentication.vo.UpdateDetailsOutputVO;
+import com.banking.system.bank.authentication.vo.UpdatePasswordInputVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,5 +24,10 @@ public class AuthenticationEO {
 
     public Optional<GetUserDetailsOutputVO> getUserDetailsByUserName(String userName) {
         return authenticationDAO.getUserDetailByUserNameAndPassWord(userName);
+    }
+
+    public UpdateDetailsOutputVO updateUserPassword(String hashedPassword, String userName) {
+        System.out.println("In EO layer");
+        return authenticationDAO.updateUserPassword(hashedPassword, userName);
     }
 }
