@@ -25,7 +25,16 @@ public class AuthenticationServiceImpl implements AuthenticationService{
     }
 
     public UpdateDetailsOutputVO updatePassword(UpdatePasswordInputVO updatePasswordInputVO, String userName){
-        System.out.println("in service layer");
         return authenticationBO.updateUserPassword(updatePasswordInputVO, userName);
+    }
+
+    @Override
+    public UpdateDetailsOutputVO updateEmail(UpdateEmailInputVO updateEmailInputVO, String userName) {
+        return authenticationBO.updateUserEmail(updateEmailInputVO,userName);
+    }
+
+    @Override
+    public UpdateDetailsOutputVO updatePhone(UpdatePhoneInputVO updatePhoneInputVO, String userName) {
+        return authenticationBO.updateUserPhone(updatePhoneInputVO,userName);
     }
 }

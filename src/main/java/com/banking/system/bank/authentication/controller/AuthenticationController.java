@@ -68,6 +68,26 @@ public class AuthenticationController {
         return new ResponseEntity<>(updateDetailsOutputVO, HttpStatus.OK);
     }
 
+    @PutMapping(value = "/user/update/email")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+    public ResponseEntity<UpdateDetailsOutputVO> userEmailUpdate(@RequestBody UpdateEmailInputVO updateEmailInputVO){
+        String userName = headerInterceptor.getUsername();
+        UpdateDetailsOutputVO updateDetailsOutputVO = authenticationService.updateEmail(updateEmailInputVO,userName);
+        return new ResponseEntity<>(updateDetailsOutputVO, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/user/update/phone")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+    public ResponseEntity<UpdateDetailsOutputVO> userEmailUpdate(@RequestBody UpdatePhoneInputVO updatePhoneInputVO){
+        String userName = headerInterceptor.getUsername();
+        UpdateDetailsOutputVO updateDetailsOutputVO = authenticationService.updatePhone(updatePhoneInputVO,userName);
+        return new ResponseEntity<>(updateDetailsOutputVO, HttpStatus.OK);
+    }
+
+    // update temporary pass admin
+    // lock status
+    // user_id
+
     @GetMapping("/token")
     public String validateToken(@RequestParam("token") String token){
         try{
@@ -77,4 +97,5 @@ public class AuthenticationController {
         }
         return "valid";
     }
+
 }

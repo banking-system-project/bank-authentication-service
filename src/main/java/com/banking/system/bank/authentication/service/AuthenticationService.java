@@ -10,4 +10,8 @@ public interface AuthenticationService {
     List<GetUserDetailsLimitedOutputVO> getUserDetails();
 
     UpdateDetailsOutputVO updatePassword(UpdatePasswordInputVO updatePasswordInputVO, String userName);
+
+    UpdateDetailsOutputVO updateEmail(UpdateEmailInputVO updateEmailInputVO, String userName);
+
+    UpdateDetailsOutputVO updatePhone(UpdatePhoneInputVO updatePhoneInputVO, String userName);
 }
