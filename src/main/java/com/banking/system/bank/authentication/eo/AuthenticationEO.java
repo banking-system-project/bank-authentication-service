@@ -27,7 +27,14 @@ public class AuthenticationEO {
     }
 
     public UpdateDetailsOutputVO updateUserPassword(String hashedPassword, String userName) {
-        System.out.println("In EO layer");
         return authenticationDAO.updateUserPassword(hashedPassword, userName);
+    }
+
+    public UpdateDetailsOutputVO updateUserEmail(String newEmail, String userName) {
+        return authenticationDAO.updateUserEmail(newEmail, userName);
+    }
+
+    public UpdateDetailsOutputVO updateUserPhone(String phone, String userName) {
+        return authenticationDAO.updateUserPhone(phone, userName);
     }
 }

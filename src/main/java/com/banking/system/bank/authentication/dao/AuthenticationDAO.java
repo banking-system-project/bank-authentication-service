@@ -57,13 +57,61 @@ public class AuthenticationDAO {
         String currentTimeStamp = now.format(formatter);
 
         int result=0;
-        System.out.println("In DAO layer");
         try{
             result = jdbcTemplate.update(SqlQueriesContstant.UPDATE_PASSWORD, new Object[]{hashedPassword, currentTimeStamp, userName});
-            System.out.println("update result: "+result);
+
             if(result == 1){
-                System.out.println("done");
-                updateDetailsOutputVO.setUpdateMessage("user details updated successfully");
+                updateDetailsOutputVO.setUpdateMessage("user Password updated successfully");
+            }
+            else {
+                updateDetailsOutputVO.setUpdateMessage("Something Wrong!!");
+            }
+
+        }catch (Exception e) {
+            updateDetailsOutputVO.setUpdateMessage(e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
+        return updateDetailsOutputVO;
+    }
+
+    public UpdateDetailsOutputVO updateUserEmail(String newEmail, String userName) {
+        UpdateDetailsOutputVO updateDetailsOutputVO = new UpdateDetailsOutputVO();
+
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String currentTimeStamp = now.format(formatter);
+
+        int result=0;
+        try{
+            result = jdbcTemplate.update(SqlQueriesContstant.EMAIL_UPDATE, new Object[]{newEmail, currentTimeStamp, userName});
+
+            if(result == 1){
+                updateDetailsOutputVO.setUpdateMessage("user Email details updated successfully");
+            }
+            else {
+                updateDetailsOutputVO.setUpdateMessage("Something Wrong!!");
+            }
+
+        }catch (Exception e) {
+            updateDetailsOutputVO.setUpdateMessage(e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
+        return updateDetailsOutputVO;
+    }
+
+    public UpdateDetailsOutputVO updateUserPhone(String phone, String userName) {
+        UpdateDetailsOutputVO updateDetailsOutputVO = new UpdateDetailsOutputVO();
+
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String currentTimeStamp = now.format(formatter);
+
+        int result=0;
+        try{
+            result = jdbcTemplate.update(SqlQueriesContstant.PHONE_UPDATE, new Object[]{phone, currentTimeStamp, userName});
+
+            if(result == 1){
+                updateDetailsOutputVO.setUpdateMessage("user Phone number details updated successfully");
             }
             else {
                 updateDetailsOutputVO.setUpdateMessage("Something Wrong!!");
