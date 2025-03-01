@@ -1,7 +1,6 @@
 package com.banking.system.bank.authentication.controller;
 
 import com.banking.system.bank.authentication.config.HeaderInterceptor;
-import com.banking.system.bank.authentication.service.AuthenticationService;
 import com.banking.system.bank.authentication.service.AuthenticationServiceImpl;
 import com.banking.system.bank.authentication.service.JwtService;
 import com.banking.system.bank.authentication.vo.*;

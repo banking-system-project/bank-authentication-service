@@ -3,9 +3,9 @@ spring:
     name: BANK-AUTHENTICATION-SERVICE
 
   datasource:
-    url: jdbc:mysql://localhost:3306/bank_data
-    username: prithwi
-    password: capgemini
+    url: jdbc:mysql://${DB_HOST:localhost}:3307/bank_data
+    username: root
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 
@@ -19,7 +19,12 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://localhost:8085/eureka
+      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8085/eureka}
 
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
 server:
   port: 8090

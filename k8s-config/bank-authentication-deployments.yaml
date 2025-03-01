@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bank-authentication-service
+  labels:
+    name: bank-authentication-service
+    app: banking-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: bank-authentication-service
+      app: banking-system
+  template:
+    metadata:
+      labels:
+        name: bank-authentication-service
+        app: banking-system
+    spec:
+      containers:
+        - name: bank-authentication-service
+          image: prithwi8972/bank-authentication-service:1.0
+          resources:
+            limits:
+              memory: "900Mi"
+              cpu: 400m
+            requests:
+              memory: "700Mi"
+              cpu: 300m
+          ports:
+            - containerPort: 8090
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-cm
+                  key: hostname
+            - name: EUREKA_SERVER_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: eureka-cm
+                  key: eureka_service_address
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: bank-authentication
+spec:
+  selector:
+    app: banking-system
+    name: bank-authentication-service
+  ports:
+    - port: 8090
+      targetPort: 8090
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eureka-cm
+data:
+  eureka_service_address: "http://service-registry-deploy-0.service-registry-deploy.default.svc.cluster.local:8085/eureka"
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-cm
+data:
+  hostname: "bankdb-0.bankdb"
