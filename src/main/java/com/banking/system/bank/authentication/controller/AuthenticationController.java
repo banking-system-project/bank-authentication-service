@@ -1,9 +1,11 @@
 package com.banking.system.bank.authentication.controller;
 
+import org.slf4j.Logger;
 import com.banking.system.bank.authentication.config.HeaderInterceptor;
 import com.banking.system.bank.authentication.service.AuthenticationServiceImpl;
 import com.banking.system.bank.authentication.service.JwtService;
 import com.banking.system.bank.authentication.vo.*;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,25 +34,31 @@ public class AuthenticationController {
     @Autowired
     private HeaderInterceptor headerInterceptor;
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
+
     @PostMapping(value = "/user/register")
     public ResponseEntity<RegisterUserOutputVO> registerUser(@RequestBody RegisterUserInputVO registerUserInputVO){
         RegisterUserOutputVO registerUserOutputVO = authenticationService.registerUser(registerUserInputVO);
         return new ResponseEntity<>(registerUserOutputVO, HttpStatus.OK);
     }
-
+//@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @PostMapping(value = "/user/details")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     public ResponseEntity<Object> getUsers(){
+        logger.info("controller layer. Beginning of Get User details");
         List<GetUserDetailsLimitedOutputVO> getUserOutputDetailsVO = authenticationService.getUserDetails();
+        logger.info("controller layer. End of get user details");
         return new ResponseEntity<>(getUserOutputDetailsVO, HttpStatus.OK);
     }
 
     @PostMapping(value = "/user/login")
     public ResponseEntity<UserAuthenticationOutputVO> signIn(@RequestBody UserAuthenticationInputVO userAuthenticationInputVO) throws Exception{
+        logger.info("controller layer. Beginning of user login");
         UserAuthenticationOutputVO userAuthenticationOutputVO = new UserAuthenticationOutputVO();
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAuthenticationInputVO.getUserId(), userAuthenticationInputVO.getPassword()));
+        logger.info("controller layer. authentication steps completed");
         if(authenticate.isAuthenticated()){
             userAuthenticationOutputVO.setToken(jwtService.generateToken(userAuthenticationInputVO.getUserId()));
+            logger.info("controller layer. End of user log in");
             return new ResponseEntity<>(userAuthenticationOutputVO, HttpStatus.OK);
         }
         else
@@ -60,7 +68,7 @@ public class AuthenticationController {
     @PutMapping(value = "/user/update/password")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     public ResponseEntity<UpdateDetailsOutputVO> userPasswordUpdate(@RequestBody UpdatePasswordInputVO updatePasswordInputVO){
-        System.out.println("here");
+
         String userName = headerInterceptor.getUsername();
         System.out.println(userName);
         UpdateDetailsOutputVO updateDetailsOutputVO = authenticationService.updatePassword(updatePasswordInputVO,userName);

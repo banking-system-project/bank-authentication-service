@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: bank-authentication-service
-          image: prithwi8972/bank-authentication-service:1.0
+          image: prithwi8972/bank-authentication-service:1.1.1 
           resources:
             limits:
               memory: "900Mi"
@@ -30,11 +30,6 @@ spec:
           ports:
             - containerPort: 8090
           env:
-            - name: DB_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: mysql-cm
-                  key: hostname
             - name: EUREKA_SERVER_ADDRESS
               valueFrom:
                 configMapKeyRef:
@@ -46,7 +41,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: bank-authentication
+  name: bank-authentication-service
 spec:
   selector:
     app: banking-system
@@ -62,12 +57,3 @@ metadata:
   name: eureka-cm
 data:
   eureka_service_address: "http://service-registry-deploy-0.service-registry-deploy.default.svc.cluster.local:8085/eureka"
-
----
-
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: mysql-cm
-data:
-  hostname: "bankdb-0.bankdb"

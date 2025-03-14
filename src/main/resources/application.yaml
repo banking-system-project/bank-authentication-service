@@ -3,9 +3,9 @@ spring:
     name: BANK-AUTHENTICATION-SERVICE
 
   datasource:
-    url: jdbc:mysql://${DB_HOST:localhost}:3307/bank_data
+    url: jdbc:mysql://shinkansen.proxy.rlwy.net:35457/banking_db
     username: root
-    password: root
+    password: WChVOxlxAIfxdhzJCjHSKEPjpsJLABeG
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 
