@@ -41,7 +41,7 @@ public class AuthenticationController {
         RegisterUserOutputVO registerUserOutputVO = authenticationService.registerUser(registerUserInputVO);
         return new ResponseEntity<>(registerUserOutputVO, HttpStatus.OK);
     }
-//@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @PostMapping(value = "/user/details")
     public ResponseEntity<Object> getUsers(){
         logger.info("controller layer. Beginning of Get User details");
@@ -90,10 +90,6 @@ public class AuthenticationController {
         UpdateDetailsOutputVO updateDetailsOutputVO = authenticationService.updatePhone(updatePhoneInputVO,userName);
         return new ResponseEntity<>(updateDetailsOutputVO, HttpStatus.OK);
     }
-
-    // update temporary pass admin
-    // lock status
-    // user_id
 
     @GetMapping("/token")
     public String validateToken(@RequestParam("token") String token){
